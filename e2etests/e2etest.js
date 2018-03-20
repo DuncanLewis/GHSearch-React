@@ -16,4 +16,10 @@ describe('GH Search App', () => {
     const actualSearchInput = browser.element('.search-input').getValue();
     expect(actualSearchInput).to.equal(searchText);
   });
+
+  it('Should display a navigation bar', () => {
+    browser.url('http://localhost:3000');
+    const actual = browser.element('.navbar');
+    expect(actual).to.equal(1);
+  });
 });
