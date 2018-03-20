@@ -13,7 +13,7 @@ describe('GH Search App', () => {
     const searchText = 'CakePHP';
     browser.url('http://localhost:3000');
     browser.element('.search-input').setValue(searchText);
-    const actualSearchInput = browser.element('.search-input');
-    expect(actualSearchInput).to.have.lengthOf.at.least(1);
+    const actualSearchInput = browser.element('.search-input').getValue();
+    expect(actualSearchInput).to.equal(searchText);
   });
 });
