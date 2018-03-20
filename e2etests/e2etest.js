@@ -8,4 +8,12 @@ describe('GH Search App', () => {
 
     expect(actualTitle).to.eql('GitHub Search');
   });
+
+  it('Should allow the user to input a search', () => {
+    const searchText = 'CakePHP';
+    browser.url('http://localhost:3000');
+    browser.element('.search-input').setValue(searchText);
+    const actualSearchInput = browser.element('.search-input');
+    expect(actualSearchInput).to.have.lengthOf.at.least(1);
+  });
 });
