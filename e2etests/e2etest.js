@@ -29,4 +29,13 @@ describe('GH Search App', () => {
     const actualSearchInput = browser.element('.search-input').getValue();
     expect(actualSearchInput).to.equal(searchText);
   });
+
+  it('Should display search results when a valid repo is searched for', () => {
+    const searchText = 'CakePHP';
+    const repoName = 'cakephp/cakephp';
+    browser.element('.search-input').setValue(searchText);
+    browser.element('.search-input').submitForm();
+    const actualSearchResults = browser.element('.search-item h2').getText();
+    expect(actualSearchResults).to.equal(repoName);
+  });
 });

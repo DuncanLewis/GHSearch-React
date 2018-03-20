@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import './styles/index.css';
-import Search from './components/search';
+import Search from './containers/search';
 import Navbar from './components/navbar';
 import RepoList from './components/repoList';
 

@@ -2,7 +2,7 @@
 
 import { shallow } from 'enzyme';
 import React from 'react';
-import Search from '.';
+import Search from './index';
 
 describe('Search component', () => {
   it('Should render successfully', () => {
