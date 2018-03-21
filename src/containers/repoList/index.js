@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import DataIcon from '../../components/dataicon';
 
 export class RepoList extends Component {
   renderResults() {
@@ -17,8 +18,20 @@ export class RepoList extends Component {
           <div className="card-body">
             <h5 className="card-title repo-name">{repo.full_name}</h5>
             <p className="card-text">{repo.description}</p>
-            <span className="mr-3"><FontAwesomeIcon icon="star" /> { repo.stargazers_count }</span>
-            <span><FontAwesomeIcon icon="code-branch" /> { repo.forks_count }</span>
+            <span className="mr-3">
+              <DataIcon
+                icon="star"
+                count={repo.stargazers_count}
+                toK
+              />
+            </span>
+            <span>
+              <DataIcon
+                icon="code-branch"
+                count={repo.forks_count}
+                toK
+              />
+            </span>
           </div>
         </Link>
       );
