@@ -12,9 +12,9 @@ export class RepoList extends Component {
         <Link
           to={`/repo/${repo.id}`}
           key={repo.id} // We have to use key prop with a unique ID (equal to the repo ID from GH)
-          className="card mb-3"
+          className="search-item card mb-3"
         >
-          <div className="search-item card-body">
+          <div className="card-body">
             <h5 className="card-title repo-name">{repo.full_name}</h5>
             <p className="card-text">{repo.description}</p>
             <span className="mr-3"><FontAwesomeIcon icon="star" /> { repo.stargazers_count }</span>
