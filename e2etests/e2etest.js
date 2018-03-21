@@ -35,7 +35,7 @@ describe('GH Search App', () => {
     const repoName = 'cakephp/cakephp';
     browser.element('.search-input').setValue(searchText);
     browser.element('.search-input').submitForm();
-    const actualSearchResults = browser.element('.search-item h2').getText();
+    const actualSearchResults = browser.element('.card-title').getText();
     expect(actualSearchResults).to.equal(repoName);
   });
 });

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { searchRepos } from '../../actions';
 
-class Search extends Component {
+export class Search extends Component {
   constructor(props) {
     super(props);
 
@@ -30,7 +30,7 @@ class Search extends Component {
         onSubmit={this.onFormSubmit}
       >
         <input
-          className="search-input form-control form-control-lg"
+          className="search-input form-control form-control-lg mb-4"
           placeholder="Search for a repo"
           value={this.state.term}
           onChange={this.onInputChange}
