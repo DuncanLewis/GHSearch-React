@@ -12,12 +12,10 @@ describe('Search component', () => {
   const component = shallow(<Search {...props} />);
 
   it('Should render successfully', () => {
-    const component = shallow(<Search />);
     expect(component.exists()).toEqual(true);
   });
 
   it('Should have an input', () => {
-    const component = shallow(<Search />);
     expect(component.find('.search-input').exists);
   });
 });
