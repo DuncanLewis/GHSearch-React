@@ -8,7 +8,7 @@ import './styles/index.css';
 import Search from './containers/search';
 import Navbar from './components/navbar';
 import RepoList from './containers/repoList';
-import RepoView from "./containers/repoView";
+import RepoView from './containers/repoView';
 
 fontawesome.library.add(brands, freeSolid);
 
@@ -27,4 +27,4 @@ export default class App extends Component {
       </div>
     );
   }
-};
+}

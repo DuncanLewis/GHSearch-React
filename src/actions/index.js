@@ -2,6 +2,7 @@ import axios from 'axios';
 
 const ROOT_URL = 'https://api.github.com';
 export const SEARCH_REPOS = 'search_repos';
+export const FETCH_REPO = 'fetch_repo';
 
 export function searchRepos(query, sort = 'stars', order) {
   // Build and send our request to the GH API using axios
@@ -16,6 +17,15 @@ export function searchRepos(query, sort = 'stars', order) {
 
   return {
     type: SEARCH_REPOS,
+    payload: request,
+  };
+}
+
+export function fetchRepo(id) {
+  const request = axios.get(`${ROOT_URL}/repositories/${id}`);
+
+  return {
+    type: FETCH_REPO,
     payload: request,
   };
 }
