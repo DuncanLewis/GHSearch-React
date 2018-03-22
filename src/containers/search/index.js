@@ -21,7 +21,7 @@ export class Search extends Component {
     event.preventDefault();
 
     // Now carry out the search with GH API
-    this.props.searchRepos(this.state.term);
+    this.props.dispatch(searchRepos(this.state.term));
   }
 
   render() {
@@ -38,10 +38,10 @@ export class Search extends Component {
       </form>
     );
   }
-};
+}
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({ searchRepos }, dispatch);
 }
 
-export default connect(null, mapDispatchToProps)(Search);
+export default connect()(Search);

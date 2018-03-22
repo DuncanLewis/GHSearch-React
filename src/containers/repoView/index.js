@@ -6,13 +6,12 @@ import StatCard from '../../components/statCard';
 
 class RepoView extends Component {
   componentDidMount() {
-    const { id } = this.props.match.params;
-    this.props.fetchRepo(id);
+    const { owner, name } = this.props.match.params;
+    this.props.fetchRepo(owner, name);
   }
 
   render() {
     const { data } = this.props;
-
 
     if (!data) {
       return <div>Loading...</div>;
@@ -92,7 +91,10 @@ class RepoView extends Component {
 }
 
 function mapStateToProps({ github }, props) {
-  return { data: github[props.match.params.id] }; // Only pass the repo we are interested in
+  // Full name is how we structure the URL and how github expects
+  // these requests to come into the API
+  const fullName = `${props.match.params.owner}/${props.match.params.name}`;
+  return { data: github }; // Only pass the repo we are interested in
 }
 
 export default connect(mapStateToProps, { fetchRepo })(RepoView);

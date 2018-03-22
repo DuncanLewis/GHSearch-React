@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import axios from 'axios';
 
 const ROOT_URL = 'https://api.github.com';
@@ -21,8 +22,15 @@ export function searchRepos(query, sort = 'stars', order) {
   };
 }
 
-export function fetchRepo(id) {
-  const request = axios.get(`${ROOT_URL}/repositories/${id}`);
+export function fetchRepo(owner, repoName) {
+  // Create the repo request root from which the rest of our requests are based
+  const repoRequestRoot = `${ROOT_URL}/repos/${owner}/${repoName}`;
+
+  // Use axios.all to send multiple requests at the same time
+  const request = axios.all([
+    axios.get(`${repoRequestRoot}`),
+    axios.get(`${repoRequestRoot}/readme`),
+  ]).then(axios.spread((repo, readme) => _.concat(repo, readme)));
 
   return {
     type: FETCH_REPO,

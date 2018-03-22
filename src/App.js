@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import fontawesome from '@fortawesome/fontawesome';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import brands from '@fortawesome/fontawesome-free-brands';
 import freeSolid from '@fortawesome/fontawesome-free-solid';
 import './styles/index.css';
@@ -20,8 +19,8 @@ export default class App extends Component {
         <div className="container">
           <Search />
           <Switch>
-            <Route exact path="/" component={RepoList} />
-            <Route path="/repo/:id" component={RepoView} />
+            <Route path="/repo/:owner/:name" component={RepoView} />
+            <Route path="/" component={RepoList} />
           </Switch>
         </div>
       </div>

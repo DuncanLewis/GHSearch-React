@@ -2,7 +2,6 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import DataIcon from '../../components/dataicon';
 
 export class RepoList extends Component {
@@ -11,7 +10,7 @@ export class RepoList extends Component {
     return _.map(this.props.data, repo => {
       return (
         <Link
-          to={`/repo/${repo.id}`}
+          to={`/repo/${repo.full_name}`}
           key={repo.id} // We have to use key prop with a unique ID (equal to the repo ID from GH)
           className="search-item card mb-3"
         >
