@@ -13,14 +13,15 @@ class RepoView extends Component {
   render() {
     const { data } = this.props;
 
-    if (!data) {
+    if (!data.repo) {
       return <div>Loading...</div>;
     }
+
     return (
       <div className="repo-view">
         <div className="row justify-content-between mb-3">
           <div className="col-4">
-            <h3>{data.full_name}</h3>
+            <h3>{data.repo.full_name}</h3>
           </div>
           <div className="col-4">
             {/*
@@ -28,12 +29,12 @@ class RepoView extends Component {
               count (specify toK to convert to thousands)
             */}
             <DataIcon
-              count={data.stargazers_count}
+              count={data.repo.stargazers_count}
               icon="star"
               toK
             />
             <DataIcon
-              count={data.forks_count}
+              count={data.repo.forks_count}
               icon="code-branch"
               toK
             />
@@ -42,19 +43,19 @@ class RepoView extends Component {
 
         <div className="row mb-3">
           <div className="col-3">
-            <StatCard statName="Open Issues" statCount={data.open_issues_count} />
+            <StatCard statName="Open Issues" statCount={data.repo.open_issues_count} />
           </div>
 
           <div className="col-3">
-            <StatCard statName="Open Issues" statCount={data.open_issues_count} />
+            <StatCard statName="Open Issues" statCount={data.repo.open_issues_count} />
           </div>
 
           <div className="col-3">
-            <StatCard statName="Open Issues" statCount={data.open_issues_count} />
+            <StatCard statName="Open Issues" statCount={data.repo.open_issues_count} />
           </div>
 
           <div className="col-3">
-            <StatCard statName="Open Issues" statCount={data.open_issues_count} />
+            <StatCard statName="Open Issues" statCount={data.repo.open_issues_count} />
           </div>
         </div>
 
@@ -65,9 +66,15 @@ class RepoView extends Component {
                 <h5 className="card-title">Top Contributors</h5>
               </div>
               <ul className="list-group list-group-flush">
-                <li className="list-group-item">
-                  Dan Abramov
-                </li>
+                {data.contributors.map(contributor =>
+                  (<li
+                    className="list-group-item d-flex justify-content-between align-items-center"
+                    key={contributor.id}
+                  >
+                    {contributor.login}
+                      <span className="badge badge-primary badge-pill">{contributor.contributions}</span>
+                   </li>
+                  ))}
               </ul>
             </div>
           </div>
