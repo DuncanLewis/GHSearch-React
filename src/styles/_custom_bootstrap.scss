@@ -1,0 +1,14 @@
+// Make the link within search item fill the whole card
+.search-results > .card.search-item a {
+  position: absolute;
+  top: 0; left: 0;
+  height: 100%; width: 100%;
+}
+
+.repo-name {
+  display: inline;
+}
+
+.repo-language {
+  float: right;
+}
