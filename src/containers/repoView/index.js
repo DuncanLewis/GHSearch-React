@@ -1,11 +1,11 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { Sparklines, SparklinesLine } from 'react-sparklines';
 import { fetchRepo } from '../../actions';
 import DataIcon from '../../components/dataicon';
 import StatCard from '../../components/statCard';
+import CommitCard from '../../components/commitCard';
+import ContributorsCard from "../../components/contributorsCard";
 
 class RepoView extends Component {
   componentDidMount() {
@@ -13,30 +13,15 @@ class RepoView extends Component {
     this.props.fetchRepo(owner, name);
   }
 
-  renderReadme(readme) {
-    return btoa(readme);
-  }
-
   /*
-   * renderContributors()
-   * render each top contributor in the list item as a link, with avatar and total contributions
-   *
-  */
-  renderContributors() {
-    return _.map(this.props.data.contributors, contributor => (
-      <Link
-        to={contributor.html_url}
-        key={contributor.id}
-        target="_blank"
-        className="list-group-item list-group-item-action d-flex justify-content-between align-items-center media"
-      >
-        <div>
-          <img className="align-self-center mr-2 rounded-circle" src={contributor.avatar_url} width="32" height="32" />
-          {contributor.login}
-        </div>
-        <span className="badge badge-primary badge-pill">{contributor.contributions}</span>
-      </Link>
-    ));
+   * renderReadme()
+   * renders the readme file with markdown from GitHub API
+   * ToDo: figure out how to insert this into HTML
+   */
+  renderReadme(readme) {
+    return (
+      <div className="readme-content">{readme}</div>
+    );
   }
 
   /*
@@ -54,15 +39,17 @@ class RepoView extends Component {
       return <div>Loading...</div>;
     }
 
+    // Assign data to more friendly constants
     const commitData = data.commitActivity[0].days;
     const totalCommits = data.commitActivity[0].total;
+    const openPullRequests = data.pulls.length;
     return (
       <div className="repo-view">
         <div className="row justify-content-between mb-3">
           <div className="col-4">
             <h3>{data.repo.full_name}</h3>
           </div>
-          <div className="col-4">
+          <div className="col-4 text-right">
             {/*
               Use our DataIcon component to show the stargazers
               count (specify toK to convert to thousands)
@@ -70,6 +57,7 @@ class RepoView extends Component {
             <DataIcon
               count={data.repo.stargazers_count}
               icon="star"
+              className="pr-3"
               toK
             />
             <DataIcon
@@ -81,43 +69,43 @@ class RepoView extends Component {
         </div>
 
         <div className="row mb-3">
-          <div className="col-3">
+          <div className="col-4">
             <StatCard statName="Open Issues" statCount={data.repo.open_issues_count} />
           </div>
 
-          <div className="col-3">
+          <div className="col-4">
             <StatCard statName="Commits This Week" statCount={totalCommits} />
           </div>
 
-          <div className="col-3">
-            <StatCard statName="Open Issues" statCount={data.repo.open_issues_count} />
-          </div>
-
-          <div className="col-3">
-            <StatCard statName="Open Issues" statCount={data.repo.open_issues_count} />
+          <div className="col-4">
+            <StatCard statName="Open PRs" statCount={openPullRequests} />
           </div>
         </div>
 
-        <div className="row">
+        <div className="row mb-3">
           <div className="col-6">
             <div className="card">
               <div className="card-body">
                 <h5 className="card-title">Top Contributors</h5>
               </div>
               <ul className="list-group list-group-flush">
-                {this.renderContributors()}
+                <ContributorsCard data={data.contributors} />
               </ul>
             </div>
           </div>
 
           <div className="col-6">
+            <CommitCard data={commitData} lineColor="blue" />
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="col-12">
             <div className="card">
               <div className="card-body">
-                <h5 className="card-title">Weekly Commits</h5>
+                <h5 className="card-title">Readme</h5>
+                {this.renderReadme(data.readme)}
               </div>
-              <Sparklines data={commitData}>
-                <SparklinesLine color="blue" />
-              </Sparklines>
             </div>
           </div>
         </div>
@@ -126,11 +114,12 @@ class RepoView extends Component {
   }
 }
 
+/*
+ * mapStateToProps
+ */
 function mapStateToProps({ github }, props) {
-  // Full name is how we structure the URL and how github expects
-  // these requests to come into the API
-  const fullName = `${props.match.params.owner}/${props.match.params.name}`;
-  return { data: github }; // Only pass the repo we are interested in
+  // Return the github data as props
+  return { data: github };
 }
 
 export default connect(mapStateToProps, { fetchRepo })(RepoView);
