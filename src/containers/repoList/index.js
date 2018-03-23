@@ -5,6 +5,10 @@ import { Link } from 'react-router-dom';
 import DataIcon from '../../components/dataicon';
 
 export class RepoList extends Component {
+  /*
+   * renderResults
+   * returns a list of search results in order of stargazers count descending
+   */
   renderResults() {
     // Use lodash _.orderBy to reorder our data before we output it
     let repoList = this.props.data;
@@ -12,13 +16,14 @@ export class RepoList extends Component {
 
     // Use lodash map (rather than for loop) to return an item for each search result
     return _.map(repoList, repo => (
-      <Link
-        to={`/repo/${repo.full_name}`}
-        key={repo.id} // We have to use key prop with a unique ID (equal to the repo ID from GH)
-        className="search-item card mb-3"
-      >
-        <div className="card-body">
+      <div className="search-item card mb-3">
+        <Link
+          to={`/repo/${repo.full_name}`}
+          key={repo.id} // We have to use key prop with a unique ID (equal to the repo ID from GH)
+        />
+        <div className="card-body bg-light">
           <h5 className="card-title repo-name">{repo.full_name}</h5>
+          <span className="repo-language badge badge-primary">{repo.language}</span>
           <p className="card-text">{repo.description}</p>
           <span className="mr-3">
             <DataIcon
@@ -35,7 +40,7 @@ export class RepoList extends Component {
             />
           </span>
         </div>
-      </Link>
+      </div>
     ));
   }
 
