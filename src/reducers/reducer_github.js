@@ -11,6 +11,7 @@ export default function (state = {}, action) {
       // ToDo: add a middleware to decode the base64 string of readme contents
 
       return {
+        ...state,
         repo: action.payload[0].data,
         readme: action.payload[1].data,
         contributors: action.payload[2].data,

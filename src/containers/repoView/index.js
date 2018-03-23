@@ -1,5 +1,7 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { fetchRepo } from '../../actions';
 import DataIcon from '../../components/dataicon';
 import StatCard from '../../components/statCard';
@@ -10,9 +12,39 @@ class RepoView extends Component {
     this.props.fetchRepo(owner, name);
   }
 
+  /*
+   * renderContributors()
+   * render each top contributor in the list item as a link, with avatar and total contributions
+   *
+  */
+  renderContributors() {
+    return _.map(this.props.data.contributors, contributor => (
+      <Link
+        to={contributor.html_url}
+        key={contributor.id}
+        target="_blank"
+        className="list-group-item list-group-item-action d-flex justify-content-between align-items-center media"
+      >
+        <div>
+          <img className="align-self-center mr-2 rounded-circle" src={contributor.avatar_url} width="32" height="32" />
+          {contributor.login}
+        </div>
+        <span className="badge badge-primary badge-pill">{contributor.contributions}</span>
+      </Link>
+    ));
+  }
+
+  /*
+   * render()
+   * initial render lifecycle function
+   *
+  */
   render() {
+    // Deconstruct data from this.props for easier access
     const { data } = this.props;
 
+    // Check if data.repo is set - if not then we are still waiting on data to be returned
+    // ToDo: refactor this so it uses the state to check if still loading
     if (!data.repo) {
       return <div>Loading...</div>;
     }
@@ -66,15 +98,7 @@ class RepoView extends Component {
                 <h5 className="card-title">Top Contributors</h5>
               </div>
               <ul className="list-group list-group-flush">
-                {data.contributors.map(contributor =>
-                  (<li
-                    className="list-group-item d-flex justify-content-between align-items-center"
-                    key={contributor.id}
-                  >
-                    {contributor.login}
-                      <span className="badge badge-primary badge-pill">{contributor.contributions}</span>
-                   </li>
-                  ))}
+                {this.renderContributors()}
               </ul>
             </div>
           </div>

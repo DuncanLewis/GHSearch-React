@@ -31,7 +31,11 @@ export function fetchRepo(owner, repoName) {
   const request = axios.all([
     axios.get(`${repoRequestRoot}`),
     axios.get(`${repoRequestRoot}/readme`),
-    axios.get(`${repoRequestRoot}/contributors`),
+    axios.get(`${repoRequestRoot}/contributors`, {
+      params: {
+        per_page: 5, // Use paging to limit number of contributors we return for contributors
+      },
+    }),
   ]).then(axios.spread((repo, readme, contributors) => _.concat(repo, readme, contributors)));
 
   return {
