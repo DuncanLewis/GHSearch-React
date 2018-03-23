@@ -45,7 +45,9 @@ export function fetchRepo(owner, repoName) {
   // Use axios.all to send multiple requests at the same time
   const request = axios.all([
     axios.get(`${repoRequestRoot}`),
-    axios.get(`${repoRequestRoot}/readme`),
+    axios.get(`${repoRequestRoot}/readme`, {
+      headers: { Accept: 'application/vnd.github.v3.raw' },
+    }),
     axios.get(`${repoRequestRoot}/stats/commit_activity`),
     axios.get(`${repoRequestRoot}/contributors`, {
       params: {
