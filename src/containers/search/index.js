@@ -7,7 +7,10 @@ export class Search extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { term: '' };
+    this.state = {
+      term: '',
+      page: 1,
+    };
 
     this.onInputChange = this.onInputChange.bind(this);
     this.onFormSubmit = this.onFormSubmit.bind(this);
@@ -21,7 +24,7 @@ export class Search extends Component {
     event.preventDefault();
 
     // Now carry out the search with GH API
-    this.props.dispatch(searchRepos(this.state.term));
+    this.props.dispatch(searchRepos(this.state.term, this.state.page));
   }
 
   render() {

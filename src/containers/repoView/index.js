@@ -2,6 +2,7 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { Sparklines, SparklinesLine } from 'react-sparklines';
 import { fetchRepo } from '../../actions';
 import DataIcon from '../../components/dataicon';
 import StatCard from '../../components/statCard';
@@ -10,6 +11,10 @@ class RepoView extends Component {
   componentDidMount() {
     const { owner, name } = this.props.match.params;
     this.props.fetchRepo(owner, name);
+  }
+
+  renderReadme(readme) {
+    return btoa(readme);
   }
 
   /*
@@ -49,6 +54,8 @@ class RepoView extends Component {
       return <div>Loading...</div>;
     }
 
+    const commitData = data.commitActivity[0].days;
+    const totalCommits = data.commitActivity[0].total;
     return (
       <div className="repo-view">
         <div className="row justify-content-between mb-3">
@@ -79,7 +86,7 @@ class RepoView extends Component {
           </div>
 
           <div className="col-3">
-            <StatCard statName="Open Issues" statCount={data.repo.open_issues_count} />
+            <StatCard statName="Commits This Week" statCount={totalCommits} />
           </div>
 
           <div className="col-3">
@@ -106,13 +113,11 @@ class RepoView extends Component {
           <div className="col-6">
             <div className="card">
               <div className="card-body">
-                <h5 className="card-title">Commits</h5>
+                <h5 className="card-title">Weekly Commits</h5>
               </div>
-              <ul className="list-group list-group-flush">
-                <li className="list-group-item">
-                  Dan Abramov
-                </li>
-              </ul>
+              <Sparklines data={commitData}>
+                <SparklinesLine color="blue" />
+              </Sparklines>
             </div>
           </div>
         </div>

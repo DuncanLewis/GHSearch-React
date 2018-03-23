@@ -5,16 +5,13 @@ import { Link } from 'react-router-dom';
 import DataIcon from '../../components/dataicon';
 
 export class RepoList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      page: 5,
-    };
-  }
-
   renderResults() {
+    // Use lodash _.orderBy to reorder our data before we output it
+    let repoList = this.props.data;
+    repoList = _.orderBy(this.props.data, ['stargazers_count'], ['desc']);
+
     // Use lodash map (rather than for loop) to return an item for each search result
-    return _.map(this.props.data, repo => (
+    return _.map(repoList, repo => (
       <Link
         to={`/repo/${repo.full_name}`}
         key={repo.id} // We have to use key prop with a unique ID (equal to the repo ID from GH)
@@ -50,7 +47,6 @@ export class RepoList extends Component {
     return (
       <div className="row justify-content-center">
         <div className="col-8">
-          {this.state.page}
           <div className="search-results">
             { this.renderResults() }
           </div>

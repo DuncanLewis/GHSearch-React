@@ -1,10 +1,25 @@
 import _ from 'lodash';
 import axios from 'axios';
 
-const ROOT_URL = 'https://api.github.com';
+/*
+ * action types
+ */
 export const SEARCH_REPOS = 'search_repos';
 export const FETCH_REPO = 'fetch_repo';
 
+/*
+ * constants
+ */
+const ROOT_URL = 'https://api.github.com';
+export const SortBy = {
+  STARS: 'stars',
+  FORKS: 'forks',
+  UPDATED: 'updated',
+};
+
+/*
+ * action creators
+ */
 export function searchRepos(query, sort = 'stars', order, page = '1') {
   // Build and send our request to the GH API using axios
   // For full API ref see: https://developer.github.com/v3/search/
@@ -31,12 +46,14 @@ export function fetchRepo(owner, repoName) {
   const request = axios.all([
     axios.get(`${repoRequestRoot}`),
     axios.get(`${repoRequestRoot}/readme`),
+    axios.get(`${repoRequestRoot}/stats/commit_activity`),
     axios.get(`${repoRequestRoot}/contributors`, {
       params: {
         per_page: 5, // Use paging to limit number of contributors we return for contributors
       },
     }),
-  ]).then(axios.spread((repo, readme, contributors) => _.concat(repo, readme, contributors)));
+    axios.get(`${repoRequestRoot}/pulls`),
+  ]).then(axios.spread((repo, readme, commitActivity, contributors, pulls) => _.concat(repo, readme, commitActivity, contributors, pulls)));
 
   return {
     type: FETCH_REPO,
