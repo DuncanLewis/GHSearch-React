@@ -17,10 +17,15 @@ export default class App extends Component {
       <div>
         <Navbar />
         <div className="container">
-          <Search />
           <Switch>
+            {/* Switch routing and only show the RepoView when a repo is two url params are set */}
             <Route path="/repo/:owner/:name" component={RepoView} />
-            <Route path="/" component={RepoList} />
+            <Route path="/" >
+              <div>
+                <Search />
+                <RepoList />
+              </div>
+            </Route>
           </Switch>
         </div>
       </div>
